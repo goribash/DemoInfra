@@ -84,22 +84,22 @@ jobs:
 
 
   # Exercise: Config and Deployment
-  configure_infrastructure: 
-    docker:
-      - image: python:3.7-alpine3.11
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints: ["88:f0:2d:01:d2:e5:ba:f8:dc:3d:3b:53:e1:2c:6a:1d"] # You can get this ID in the section where you registered the SSH Key
-      - run:
-          name: Install dependencies
-          command: |
-            # install the dependencies needed for your playbook
-            apk add --update ansible 
-      - run:
-          name: Configure server
-          command: |
-            ansible-playbook -i inventory.txt main.yml
+  # configure_infrastructure: 
+  #   docker:
+  #     - image: python:3.7-alpine3.11
+  #   steps:
+  #     - checkout
+  #     - add_ssh_keys:
+  #         fingerprints: ["88:f0:2d:01:d2:e5:ba:f8:dc:3d:3b:53:e1:2c:6a:1d"] # You can get this ID in the section where you registered the SSH Key
+  #     - run:
+  #         name: Install dependencies
+  #         command: |
+  #           # install the dependencies needed for your playbook
+  #           apk add --update ansible 
+  #     - run:
+  #         name: Configure server
+  #         command: |
+  #           ansible-playbook -i inventory.txt main.yml
 
   # Exercise: Smoke Testing
   smoke_test:
