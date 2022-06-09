@@ -18,6 +18,7 @@ orbs:
 #       - run: echo << parameters.id >>
 
 #   # Exercise - Rollback
+commands:
   destroy_environment:
     steps:
       - run:
