@@ -80,7 +80,6 @@ jobs:
               --region us-east-1
       # Fail the job intentionally to simulate an error.
       # Uncomment the line below if you want to fail the current step
-      - destroy_environment
 
 
   # Exercise: Config and Deployment
