@@ -66,19 +66,21 @@ jobs:
  
   # Exercise: Infrastructure Creation
   # Exercise - Rollback
-  create_infrastructure: 
-    docker:
-      - image: amazon/aws-cli
-    steps:
-      - checkout
-      - run:
-          name: Create Cloudformation Stack
-          command: |
-            aws cloudformation deploy \
-              --template-file template.yml \
-              --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
-              --region us-east-1
-      - destroy_environment
+  # create_infrastructure: 
+  #   docker:
+  #     - image: amazon/aws-cli
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Create Cloudformation Stack
+  #         command: |
+  #           aws cloudformation deploy \
+  #             --template-file template.yml \
+  #             --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+  #             --region us-east-1
+      
+  #     # - run: return 1
+  #     - destroy_environment
 
       # Fail the job intentionally to simulate an error.
       # Uncomment the line below if you want to fail the current step
@@ -214,7 +216,7 @@ workflows:
       #     requires:
       #       - upload_file
       - create_infrastructure
-      # - smoke_test
+      - smoke_test
       # - configure_infrastructure
       # - create_and_deploy_front_end
       # - promote_to_production:
