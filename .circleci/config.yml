@@ -72,7 +72,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Create Cloudformation Stack
+          name: Create  Stack
           command: |
             aws cloudformation deploy \
               --template-file template.yml \
