@@ -1,5 +1,5 @@
 Parameters:
-  # New Bucket name
+  # New name
   MyBucketName:
     Description: Existing Bucket name
     Type: String
