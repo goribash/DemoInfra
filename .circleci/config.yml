@@ -18,16 +18,16 @@ orbs:
 #       - run: echo << parameters.id >>
 
 #   # Exercise - Rollback
-commands:
-  destroy_environment:
-    steps:
-      - run:
-          name: Destroy environment
-          # ${CIRCLE_WORKFLOW_ID} is a Built-in environment variable 
-          # ${CIRCLE_WORKFLOW_ID:0:5} takes the first 5 chars of the variable CIRCLE_CI_WORKFLOW_ID 
-          when: on_fail
-          command: |
-            aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5}
+# commands:
+#   destroy_environment:
+#     steps:
+#       - run:
+#           name: Destroy environment
+#           # ${CIRCLE_WORKFLOW_ID} is a Built-in environment variable 
+#           # ${CIRCLE_WORKFLOW_ID:0:5} takes the first 5 chars of the variable CIRCLE_CI_WORKFLOW_ID 
+#           when: on_fail
+#           command: |
+#             aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5}
           
 
 
@@ -66,21 +66,21 @@ jobs:
  
   # Exercise: Infrastructure Creation
   # Exercise - Rollback
-  create_infrastructure: 
-    docker:
-      - image: amazon/aws-cli
-    steps:
-      - checkout
-      - run:
-          name: Create  Stack
-          command: |
-            aws cloudformation deploy \
-              --template-file template.yml \
-              --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
-              --region us-east-1
-      - run: return 1
-      - destroy_environment
-      # Fail the job intentionally to simulate an error.
+  # create_infrastructure: 
+  #   docker:
+  #     - image: amazon/aws-cli
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Create  Stack
+  #         command: |
+  #           aws cloudformation deploy \
+  #             --template-file template.yml \
+  #             --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+  #             --region us-east-1
+  #     - run: return 1
+  #     - destroy_environment
+  #     # Fail the job intentionally to simulate an error.
       # Uncomment the line below if you want to fail the current step
 
 
@@ -129,20 +129,20 @@ jobs:
   # Job 1
   # Executes the bucket.yml - Deploy an S3 bucket, and interface with that bucket to synchronize the files between local and the bucket.
   # Note that the `--parameter-overrides` let you specify a value that override parameter value in the bucket.yml template file.
-  # create_and_deploy_front_end:
-  #   docker:
-  #     - image: amazon/aws-cli
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: Execute bucket.yml - Create Cloudformation Stack
-  #         command: |
-  #           aws cloudformation deploy \
-  #           --template-file bucket.yml \
-  #           --stack-name stack-create-bucket-${CIRCLE_WORKFLOW_ID:0:7} \
-  #           --parameter-overrides MyBucketName="mybucket-${CIRCLE_WORKFLOW_ID:0:7}"
+  create_and_deploy_front_end:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Execute bucket.yml - Create Cloudformation Stack
+          command: |
+            aws cloudformation deploy \
+            --template-file bucket.yml \
+            --stack-name stack-create-bucket-${CIRCLE_WORKFLOW_ID:0:5} \
+            --parameter-overrides MyBucketName="mybucket-${CIRCLE_WORKFLOW_ID:0:5}"
       # Uncomment the step below if yoou wish to upload all contents of the current directory to the S3 bucket
-      # - run: aws s3 sync . s3://mybucket-${CIRCLE_WORKFLOW_ID:0:7} --delete
+      - run: aws s3 sync . s3://mybucket-${CIRCLE_WORKFLOW_ID:0:5} --delete
   
   # Exercise: Promote to Production - Job 2
   # Fetch and save the pipeline ID (bucket ID) responsible for the last release.
@@ -213,11 +213,11 @@ workflows:
       # - download_file:
       #     requires:
       #       - upload_file
-      - create_infrastructure
+      # - create_infrastructure
       # - smoke_test
       
       # - configure_infrastructure
-      # - create_and_deploy_front_end
+      - create_and_deploy_front_end
       # - promote_to_production:
       #     requires: 
       #       - create_and_deploy_front_end
