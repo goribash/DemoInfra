@@ -33,9 +33,3 @@ Outputs:
     Value: !Sub ${PipelineID}
     Export:
       Name: PipelineID
-
-aws cloudformation deploy \
---template-file cloudfront.yml \
---stack-name production-distro \
---parameter-overrides PipelineID="mybucket305470520825" \
---tags project=udapeople &
